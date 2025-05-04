@@ -9,7 +9,7 @@ import AVFoundation
 import Vision
 
 struct ContentView: View {
-    @State private var sensitivity: Double = 100
+    @State private var sensitivity: Double = 1
     @State private var selectedCameraIndex: Int = 0
     @State private var isScrollingEnabled: Bool = true
     @State private var showAlert: Bool = false
@@ -26,7 +26,7 @@ struct ContentView: View {
             // 灵敏度设置
             HStack {
                 Text("灵敏度:")
-                Slider(value: $sensitivity, in: 1...100, step: 10)
+                Slider(value: $sensitivity, in: 1...10, step: 1)
                     .onChange(of: sensitivity) { newValue in
                         cameraManager.sensitivity = Int(newValue)
                     }
@@ -106,10 +106,6 @@ struct ContentView: View {
 
 }
 
-enum HeadTiltDirection {
-    case left
-    case right
-}
 class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     @Published var availableCameras: [AVCaptureDevice] = []
     @Published var sensitivity: Int = 1
@@ -118,9 +114,6 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     var videoDataOutput: AVCaptureVideoDataOutput?
     var faceDetectionRequest: VNDetectFaceRectanglesRequest?
     var sequenceHandler = VNSequenceRequestHandler()
-    private var lastProcessedTime: TimeInterval = 0
-    private let minProcessingInterval: TimeInterval = 0.1
-    
     
     let dataOutputQueue = DispatchQueue(
       label: "com.pencilcool.mousebyhead.video.data.queue",
