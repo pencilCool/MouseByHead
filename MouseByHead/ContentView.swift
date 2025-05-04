@@ -198,10 +198,10 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
     }
 
     func scrollMouse(by delta: Int) {
-        scrollMouse(onPoint: CGPoint(x: 1000, y: 1000), xLines: delta, yLines: delta)
+        scrollMouse(xLines: delta, yLines: delta)
     }
    
-      func scrollMouse(onPoint point: CGPoint, xLines: Int, yLines: Int) {
+      func scrollMouse(xLines: Int, yLines: Int) {
         if #available(OSX 10.13, *) {
             guard let scrollEvent = CGEvent(scrollWheelEvent2Source: nil, units: CGScrollEventUnit.line, wheelCount: 2, wheel1: Int32(yLines), wheel2: Int32(xLines), wheel3: 0) else {
                 return
