@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C41422A02DC8E9F20036A768 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C414229F2DC8E9F20036A768 /* Localizable.xcstrings */; };
+		C41422A22DC8FA760036A768 /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = C41422A12DC8FA760036A768 /* InfoPlist.xcstrings */; };
 		C41F92E62DC6A14100344557 /* MouseByHeadApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F92E52DC6A14100344557 /* MouseByHeadApp.swift */; };
 		C41F92E82DC6A14100344557 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C41F92E72DC6A14100344557 /* ContentView.swift */; };
 		C41F92EA2DC6A14500344557 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C41F92E92DC6A14500344557 /* Assets.xcassets */; };
@@ -14,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C414229F2DC8E9F20036A768 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		C41422A12DC8FA760036A768 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		C41F92E22DC6A14100344557 /* MouseByHead.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MouseByHead.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C41F92E52DC6A14100344557 /* MouseByHeadApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MouseByHeadApp.swift; sourceTree = "<group>"; };
 		C41F92E72DC6A14100344557 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -57,6 +61,8 @@
 				C41F92E92DC6A14500344557 /* Assets.xcassets */,
 				C41F92EE2DC6A14500344557 /* MouseByHead.entitlements */,
 				C41F92EB2DC6A14500344557 /* Preview Content */,
+				C414229F2DC8E9F20036A768 /* Localizable.xcstrings */,
+				C41422A12DC8FA760036A768 /* InfoPlist.xcstrings */,
 			);
 			path = MouseByHead;
 			sourceTree = "<group>";
@@ -111,6 +117,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = C41F92D92DC6A14100344557;
 			productRefGroup = C41F92E32DC6A14100344557 /* Products */;
@@ -128,7 +135,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C41F92ED2DC6A14500344557 /* Preview Assets.xcassets in Resources */,
+				C41422A22DC8FA760036A768 /* InfoPlist.xcstrings in Resources */,
 				C41F92EA2DC6A14500344557 /* Assets.xcassets in Resources */,
+				C41422A02DC8E9F20036A768 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,7 +281,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = MouseByHead/MouseByHead.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2;
@@ -282,8 +291,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Get Head info to trigger mouse event";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "MIT License";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -315,8 +324,8 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = "Get Head info to trigger mouse event";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "MIT License";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",

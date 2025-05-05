@@ -8,11 +8,17 @@ import SwiftUI
 import AVFoundation
 import Vision
 
+extension String {
+    var localized: String {
+        return NSLocalizedString(self, comment: "")
+    }
+}
+
 struct ContentView: View {
     @State private var sensitivity: Double = 1
     @State private var selectedCameraIndex: Int = 0
     @State private var isScrollingEnabled: Bool = true
-    @State private var showAlert: Bool = false
+    @State private var showAccessibilityAlert: Bool = false
     @State private var alertMessage: String = ""
     
     @StateObject private var cameraManager = CameraManager()
@@ -25,7 +31,7 @@ struct ContentView: View {
 
             // 灵敏度设置
             HStack {
-                Text("灵敏度:")
+                Text("灵敏度:".localized)
                 Slider(value: $sensitivity, in: 1...10, step: 1)
                     .onChange(of: sensitivity) { newValue in
                         cameraManager.sensitivity = Int(newValue)
@@ -35,7 +41,7 @@ struct ContentView: View {
            .padding()
 
             // 摄像头选择
-            Picker("选择摄像头", selection: $selectedCameraIndex) {
+            Picker("选择摄像头".localized, selection: $selectedCameraIndex) {
                 ForEach(0..<cameraManager.availableCameras.count, id: \.self) { index in
                     Text(cameraManager.availableCameras[index].localizedName)
                         .tag(index)
@@ -49,15 +55,26 @@ struct ContentView: View {
         }
        .onAppear {
             cameraManager.startSession()
+            checkAccessibilityPermission()
+        }.alert(isPresented: $showAccessibilityAlert) {
+            Alert(title: Text("授权申请".localized), message: Text("控制电脑授权".localized), dismissButton: .default(Text("确定".localized)))
         }.onReceive(cameraManager.$isScrollingEnabled) { scrollAble in
                 if scrollAble == true {
-                    showAlert(message: "🟢向右歪头，允许触发鼠标滚动事件")
+                    showAlert(message: "🟢向右歪头，允许触发鼠标滚动事件".localized)
                 } else {
-                    showAlert(message: "🔴向左歪头，禁止触发鼠标滚动事件")
+                    showAlert(message: "🔴向左歪头，禁止触发鼠标滚动事件".localized)
                 }
         }
        
     }
+    
+    private func checkAccessibilityPermission() {
+         let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue() as NSString: false]
+         let isTrusted = AXIsProcessTrustedWithOptions(options)
+         if !isTrusted {
+             showAccessibilityAlert = true
+         }
+     }
     private func showAlert(message: String) {
         let alertWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.borderless], backing: .buffered, defer: false)
         alertWindow.backgroundColor = NSColor.black.withAlphaComponent(0.7)
@@ -287,4 +304,4 @@ struct CameraPreview: NSViewRepresentable {
         }
     }
 }
-    
+   
