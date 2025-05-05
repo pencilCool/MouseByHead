@@ -55,9 +55,12 @@ struct ContentView: View {
         }
        .onAppear {
             cameraManager.startSession()
+            checkCameraAccess()
             checkAccessibilityPermission()
         }.alert(isPresented: $showAccessibilityAlert) {
-            Alert(title: Text("授权申请".localized), message: Text("控制电脑授权".localized), dismissButton: .default(Text("确定".localized)))
+            Alert(title: Text("授权申请".localized), message: Text("控制电脑授权".localized), dismissButton: .default(Text("确定".localized)) {
+                NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
+            })
         }.onReceive(cameraManager.$isScrollingEnabled) { scrollAble in
                 if scrollAble == true {
                     showAlert(message: "🟢向右歪头，允许触发鼠标滚动事件".localized)
@@ -75,6 +78,61 @@ struct ContentView: View {
              showAccessibilityAlert = true
          }
      }
+    
+    private func checkCameraAccess() {
+        let status = AVCaptureDevice.authorizationStatus(for: .video)
+
+        switch status {
+        case .notDetermined:
+            // 尚未请求权限，你需要请求
+            requestCameraAccess()
+        case .authorized:
+            // 用户已授权，你可以使用摄像头
+            print("Camera access authorized.")
+            // 在这里进行摄像头相关的操作 (例如，设置 AVCaptureSession)
+        case .denied, .restricted:
+            // 用户已拒绝授权，或者应用被限制访问。
+            // 你应该向用户显示一个解释为什么需要访问摄像头的消息。
+            print("Camera access denied or restricted.")
+//            showCameraAccessDeniedAlert()
+            requestCameraAccess()
+        @unknown default:
+            // 处理未来可能添加的新状态
+            print("Unknown authorization status")
+        }
+    }
+    
+    func requestCameraAccess() {
+        AVCaptureDevice.requestAccess(for: .video) { granted in
+            DispatchQueue.main.async { // 确保在主线程上更新 UI
+                if granted {
+                    // 用户授予了权限
+                    print("Camera access granted")
+                    // 在这里进行摄像头相关的操作
+                } else {
+                    // 用户拒绝了权限
+                    print("Camera access denied")
+                    self.showCameraAccessDeniedAlert() //显示提示
+                }
+            }
+        }
+    }
+    
+    func showCameraAccessDeniedAlert() {
+        let alert = NSAlert()
+        alert.messageText = "授权申请".localized
+        alert.informativeText = ""
+//        alert.buttonTitle = "好的"
+        alert.addButton(withTitle: "确定".localized) // 添加一个按钮，直接打开设置
+
+        let result = alert.runModal()
+
+         if result == .alertFirstButtonReturn {
+            // 打开系统偏好设置中的“安全性与隐私”
+            NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera")!)
+        }
+    }
+
     private func showAlert(message: String) {
         let alertWindow = NSWindow(contentRect: NSRect(x: 0, y: 0, width: 300, height: 100), styleMask: [.borderless], backing: .buffered, defer: false)
         alertWindow.backgroundColor = NSColor.black.withAlphaComponent(0.7)
@@ -116,7 +174,7 @@ struct ContentView: View {
 
 
         // 自动消失
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
             alertWindow.orderOut(nil)
         }
     }
@@ -189,11 +247,11 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
 //        let  yaw = observation.yaw?.doubleValue ?? 0
         let pitch = observation.pitch?.doubleValue ?? 0
         let roll = observation.roll?.doubleValue ?? 0
-        if roll > 0.4 {
+        if roll > 0.2  {
             // 右歪头
             isScrollingEnabled = true
             print("[pencilCool]  scrollAble")
-        } else if roll < -0.4 {
+        } else if roll < -0.2 {
             // 左歪头
             isScrollingEnabled = false
             print("[pencilCool]  not scrollAble")
@@ -218,33 +276,31 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
         scrollMouse(xLines: delta, yLines: delta)
     }
    
-      func scrollMouse(xLines: Int, yLines: Int) {
-        if #available(OSX 10.13, *) {
-            guard let scrollEvent = CGEvent(scrollWheelEvent2Source: nil, units: CGScrollEventUnit.line, wheelCount: 2, wheel1: Int32(yLines), wheel2: Int32(xLines), wheel3: 0) else {
-                return
-            }
-            scrollEvent.setIntegerValueField(CGEventField.eventSourceUserData, value: 1)
-            
-            // 需要辅助功能权限
-              let accessEnabled = AXIsProcessTrustedWithOptions(nil)
-              if accessEnabled {
-                  scrollEvent.post(tap: CGEventTapLocation.cghidEventTap)
-              } else {
-                  print("Accessibility access is not enabled. Please grant permission in System Settings > Privacy & Security > Accessibility.")
-                  // 引导用户去开启权限
-                  _ = CameraManager.onceAccessibility
-              }
-            
-
-        } else {
-            // scroll event is not supported for macOS older than 10.13
+    func scrollMouse(xLines: Int, yLines: Int) {
+        guard let scrollEvent = CGEvent(scrollWheelEvent2Source: nil, units: CGScrollEventUnit.line, wheelCount: 2, wheel1: Int32(yLines), wheel2: Int32(xLines), wheel3: 0) else {
+            return
         }
+        scrollEvent.setIntegerValueField(CGEventField.eventSourceUserData, value: 1)
+
+        // 需要辅助功能权限
+          let accessEnabled = AXIsProcessTrustedWithOptions(nil)
+          if accessEnabled {
+              scrollEvent.post(tap: CGEventTapLocation.cghidEventTap)
+          } else {
+              print("Accessibility access is not enabled. Please grant permission in System Settings > Privacy & Security > Accessibility.")
+              // 引导用户去开启权限
+        //                  _ = CameraManager.onceAccessibility
+          }
+
+
+
     }
     
     static let onceAccessibility: Void = {
         NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")!)
             return ()
         }()
+ 
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         guard let faceDetectionRequest = faceDetectionRequest else { return }
         let imageRequestHandler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])

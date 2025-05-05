@@ -7,9 +7,15 @@
     "🔴向左歪头，禁止触发鼠标滚动事件" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "🔴Tilt your head to the left, and prevent triggering mouse scroll events."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "🔴向左歪头，禁止触发鼠标滚动事件"
           }
         }
@@ -18,9 +24,15 @@
     "🟢向右歪头，允许触发鼠标滚动事件" : {
       "extractionState" : "manual",
       "localizations" : {
-        "zh-Hans" : {
+        "en" : {
           "stringUnit" : {
             "state" : "translated",
+            "value" : "🟢Tilt your head to the right, and allow mouse scroll events to be triggered."
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "needs_review",
             "value" : "🟢向右歪头，允许触发鼠标滚动事件"
           }
         }
@@ -54,6 +66,17 @@
         }
       }
     },
+    "摄像机授权说明" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "此应用需要访问您的摄像头才能正常工作。请在“系统偏好设置”>“安全性与隐私”>“隐私”>“相机”中启用摄像头访问权限。"
+          }
+        }
+      }
+    },
     "灵敏度" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -72,12 +95,18 @@
       }
     },
     "确定" : {
-      "extractionState" : "stale",
+      "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确定"
           }
         }
       }
