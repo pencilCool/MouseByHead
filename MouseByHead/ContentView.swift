@@ -261,11 +261,11 @@ class CameraManager: NSObject, ObservableObject, AVCaptureVideoDataOutputSampleB
            return
         }
 //        print("roll:\(roll),yaw:\(yaw),pitch:\(pitch)")
-        if pitch > 0.1 {
+        if pitch > 0.1 && roll < 0.2 && roll > -0.2 {
             // 低头
             print("[pencilCool]  down")
             scrollMouse(by: sensitivity)
-        } else if pitch < -0.1 {
+        } else if pitch < -0.1  && roll < 0.2 && roll > -0.2 {
             // 抬头
             print("[pencilCool]  up")
             scrollMouse(by: -sensitivity)
