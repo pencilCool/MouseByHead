@@ -18,8 +18,6 @@
 
 [AppStore 下载](https://apps.apple.com/us/app/mousebyhead/id6745446925)
 
-[Github 下载地址](https://github.com/user-attachments/files/20064669/MouseByHead.zip)
-
 ### 首次启动 app
 
 1. 授权 Camera
