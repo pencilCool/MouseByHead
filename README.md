@@ -14,7 +14,7 @@
 
 这是一个 mac app， 让你在浏览网页的时候，通过低头抬头来控制鼠标滚动，可以缓解僵硬的脖子。
 
-### 下载安装
+### 安装
 
 [下载地址](https://github.com/user-attachments/files/20064669/MouseByHead.zip)
 
