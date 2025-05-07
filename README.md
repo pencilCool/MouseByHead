@@ -16,9 +16,9 @@
 
 ### 安装
 
-[下载地址](https://github.com/user-attachments/files/20064669/MouseByHead.zip)
+[AppStore 下载](https://apps.apple.com/us/app/mousebyhead/id6745446925)
 
-从 zip 把解压出 app 后，将 app 拖到到 `Application` 目录下
+[Github 下载地址](https://github.com/user-attachments/files/20064669/MouseByHead.zip)
 
 ### 首次启动 app
 
